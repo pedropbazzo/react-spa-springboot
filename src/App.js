@@ -4,6 +4,7 @@ import './App.css';
 
 import Login from './pages/Login';
 import Welcome from './pages/Welcome';
+import Todos from './pages/Todos';
 import RouteNotFound from './pages/RouteNotFound';
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
           <Route path="/" exact component={Login} />
           <Route path="/login" component={Login} />
           <Route path="/welcome" component={Welcome} />
+          <Route path="/todos" component={Todos} />
           <Route path="" component={RouteNotFound} />
         </Switch>
       </Router>
