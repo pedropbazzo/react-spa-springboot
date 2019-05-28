@@ -15,12 +15,11 @@ class Todos extends Component {
     
     render() {
         return (
-            <div>
+            <div className="container">
                 <h1>List Todos</h1>
-                <table>
+                <table className="table">
                     <thead>
                         <tr>
-                            <th>ID</th>
                             <th>Description</th>
                             <th>Is Completed?</th>
                             <th>Target Date</th>
@@ -30,7 +29,6 @@ class Todos extends Component {
                         {
                             this.state.todos.map(todo => 
                                 <tr key={todo.id}>
-                                    <td>{todo.id}</td>
                                     <td>{todo.description}</td>
                                     <td>{todo.done.toString()}</td>
                                     <td>{todo.targetDate.toString()}</td>
