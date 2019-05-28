@@ -1,4 +1,5 @@
 import React, {Component} from 'react'
+import {Link} from 'react-router-dom';
 //import { withRouter } from 'react-router-dom'
 
 class Header extends Component {
@@ -8,7 +9,29 @@ class Header extends Component {
         return (
             <div>
                 {/*((this.props.location.pathname !== '/') && (this.props.location.pathname !== '/login')) && <div>Header<hr/></div>*/}
-                Header<hr />
+                
+                <header>
+                    <nav className="navbar navbar-expand-md navbar-dark bg-dark">
+                        <div className="navbar-brand">SpringBoot React SPA</div>
+                        <ul className="navbar-nav">
+                            <li>
+                                <Link className="nav-link" to="/welcome">Home</Link>
+                            </li>
+                            <li>
+                                <Link className="nav-link" to="/todos">Todos</Link>
+                            </li>
+                        </ul>
+                        <ul className="navbar-nav navbar-collapse justify-content-end">
+                            <li>
+                                <Link className="nav-link" to="/login">Login</Link>
+                            </li>
+                            <li>
+                                <Link className="nav-link" to="/logout">Logout</Link>
+                            </li>
+                        </ul>
+                    </nav>
+                </header>
+
             </div>
         )
     }
