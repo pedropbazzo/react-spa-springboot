@@ -4,8 +4,8 @@ import { Link } from 'react-router-dom';
 function Logout() {
     return (
         <div>
-            <div>You have successfully logged out</div>
-            Click here to log in <Link to="/login">Login</Link>
+            <h3>You have successfully logged out</h3>
+            <div>Click here to log in <Link to="/login">Login</Link></div>
         </div>
     )
 }
