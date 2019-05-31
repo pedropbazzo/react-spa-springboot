@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {Link} from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import AuthenticationService from '../services/AuthenticationService'
 import AppContext from '../AppContext'
 
@@ -11,7 +11,7 @@ class LogoutLink extends Component {
     render() {
         return (
             <AppContext.Consumer>
-                {(context) => <Link onClick={() => {this.logout(context)}} className="nav-link" to="/logout">Logout</Link>}
+                {(context) => <NavLink onClick={() => {this.logout(context)}} className="nav-link" to="/logout">Logout</NavLink>}
             </AppContext.Consumer>
         )
     }
