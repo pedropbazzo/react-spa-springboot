@@ -13,6 +13,8 @@ import RouteNotFound from './pages/RouteNotFound';
 // components
 import Header from './components/Header';
 import Footer from './components/Footer';
+import AuthenticatedRoute from './components/AuthenticatedRoute';
+import UnauthenticatedRoute from './components/UnauthenticatedRoute';
 
 // Context
 import AppContext from './AppContext';
@@ -47,11 +49,11 @@ function App() {
         <Router>
           <Header />
           <Switch>
-            <Route path="/" exact component={Login} />
-            <Route path="/login" component={Login} />
-            <Route path="/logout" component={Logout} />
-            <Route path="/welcome" component={Welcome} />
-            <Route path="/todos" component={Todos} />
+            <UnauthenticatedRoute path="/" exact component={Login} />
+            <UnauthenticatedRoute path="/login" component={Login} />
+            <AuthenticatedRoute path="/logout" component={Logout} />
+            <AuthenticatedRoute path="/welcome" component={Welcome} />
+            <AuthenticatedRoute path="/todos" component={Todos} />
             <Route path="" component={RouteNotFound} />
           </Switch>
           <Footer />
