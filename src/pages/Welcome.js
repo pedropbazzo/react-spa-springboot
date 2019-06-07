@@ -6,7 +6,8 @@ class Welcome extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            welcomeMessage: ''
+            welcomeMessage: '',
+            errorMessage: ''
         }
         this.retrieveWelcomeMessage = this.retrieveWelcomeMessage.bind(this)
     }
@@ -17,7 +18,8 @@ class Welcome extends Component {
                 <h1>Welcome!</h1>
                 <div>Welcome john.doe. You can manage your Todos at <Link to="/todos">Todos</Link></div>
                 <div>Click <button onClick={this.retrieveWelcomeMessage}>Get welcome message</button> to get a customized welcome message</div>
-                <h3>{this.state.welcomeMessage}</h3>
+                {this.state.welcomeMessage.length > 0 && <h3>{this.state.welcomeMessage}</h3>}
+                {this.state.errorMessage.length > 0 && <div>{this.state.errorMessage}</div>}
             </div>
         )
     }
@@ -25,12 +27,18 @@ class Welcome extends Component {
     retrieveWelcomeMessage() {
         let timeStamp = Math.floor(Date.now());
         ApiService.get('http://localhost:8082/hello-world/' + timeStamp)
-        .then(response => {
+        .then(data => {
             this.setState({
-                welcomeMessage: response.data.message
+                welcomeMessage: data.message,
+                errorMessage: ''
             })
         })
-        .catch(error => console.log(error))
+        .catch(error => {
+            this.setState({
+                errorMessage: error.message,
+                welcomeMessage: ''
+            })
+        })
     }
 
 }
