@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
 import ApiService from '../services/ApiService'
+import AuthenticationService from '../services/AuthenticationService'
 
 class Welcome extends Component {
     constructor(props) {
@@ -16,7 +17,7 @@ class Welcome extends Component {
         return (
             <div className="container">
                 <h1>Welcome!</h1>
-                <div>Welcome john.doe. You can manage your Todos at <Link to="/todos">Todos</Link></div>
+                <div>Welcome {AuthenticationService.getLoggedInUser()}. You can manage your Todos at <Link to="/todos">Todos</Link></div>
                 <div>Click <button onClick={this.retrieveWelcomeMessage}>Get welcome message</button> to get a customized welcome message</div>
                 {this.state.welcomeMessage.length > 0 && <h3>{this.state.welcomeMessage}</h3>}
                 {this.state.errorMessage.length > 0 && <div>{this.state.errorMessage}</div>}

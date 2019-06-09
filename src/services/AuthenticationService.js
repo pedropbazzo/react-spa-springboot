@@ -7,6 +7,10 @@ class AuthenticationService {
         sessionStorage.removeItem('authenticatedUser')
     }
 
+    getLoggedInUser() {
+        return sessionStorage.getItem('authenticatedUser')
+    }
+
     isUserLoggedIn() {
         let user = sessionStorage.getItem('authenticatedUser')
         if(user === null) {
