@@ -1,10 +1,12 @@
 import axios from 'axios'
+import {REST_API_URL} from '../App.constant'
 
 class ApiService {
     get(url) {
-       return axios.get(url)
-        .then(response => {return this.onSuccess(response)})
-        .catch(error => {return this.onError(error)})
+        let restApiEndPoint = this.getRestEndPointUrl(url)
+        return axios.get(restApiEndPoint)
+            .then(response => {return this.onSuccess(response)})
+            .catch(error => {return this.onError(error)})
     }
     
     /*post(url, data) {
@@ -18,6 +20,18 @@ class ApiService {
     delete(url) {
         return axios.delete(url)
     }*/
+
+    getRestEndPointUrl(apiEndPoint) {
+        // needs more testing
+        if(apiEndPoint.indexOf(REST_API_URL) === -1) {
+            // check if the Endpoint begins with '/'. If not, add '/'
+            if(apiEndPoint.charAt(0) !== '/') {
+                apiEndPoint = '/' + apiEndPoint
+            }
+            return REST_API_URL + apiEndPoint
+        }
+        return apiEndPoint
+    }
 
     onSuccess(response) {
         return Promise.resolve(response.data);

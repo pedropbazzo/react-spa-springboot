@@ -27,7 +27,7 @@ class Welcome extends Component {
 
     retrieveWelcomeMessage() {
         let timeStamp = Math.floor(Date.now());
-        ApiService.get('http://localhost:8082/hello-world/' + timeStamp)
+        ApiService.get('/hello-world/' + timeStamp)
         .then(data => {
             this.setState({
                 welcomeMessage: data.message,
