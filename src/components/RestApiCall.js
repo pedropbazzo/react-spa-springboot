@@ -1,10 +1,9 @@
 import {Component} from 'react'
 import ApiService from '../services/ApiService'
-import AuthenticationService from '../services/AuthenticationService'
+//import AuthenticationService from '../services/AuthenticationService'
 
 class RestApiCall extends Component {
     constructor(props) {
-        console.log(props)
         super(props)
         this.state = {
             data: []
@@ -12,8 +11,7 @@ class RestApiCall extends Component {
     }
 
     componentDidMount() {
-        let username = AuthenticationService.getLoggedInUser()
-        ApiService.get(`/users/${username}/todos`)
+        ApiService.get(this.props.endPoint)
             .then(todos => this.setState({data: todos}))
             .catch(error => console.log(error))
     }

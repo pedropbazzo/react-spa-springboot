@@ -54,29 +54,19 @@ function App() {
             <UnauthenticatedRoute path="/login" component={Login} />
             <AuthenticatedRoute path="/logout" component={Logout} />
             <AuthenticatedRoute path="/welcome" component={Welcome} />
-            <AuthenticatedRoute exact
+            <AuthenticatedRoute
               path="/todos" 
               render={
                 (props) => {
-                  let endPointUrl = '/users/';
-                  return <RestApiCall {...props} 
+                  let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUser()
+                  let endPoint = `/users/${userId}/todos`;
+                  return <RestApiCall {...props} endPoint={endPoint}
                     render={
                       todos => <Todos todos={todos} />
                     } 
                   />
                 }
               } 
-            />
-            <AuthenticatedRoute exact 
-              path="/todos/:id" 
-              render={
-                (props) => 
-                <RestApiCall {...props} 
-                  render={
-                    todos => <Todos todos={todos} />
-                  } 
-                />
-              }
             />
             <Route path="" component={RouteNotFound} />
           </Switch>
