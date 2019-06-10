@@ -1,1 +1,5 @@
-export const REST_API_URL = 'http://localhost:8082';
+const env = {
+    restApiBaseUrl: 'http://localhost:8082'
+}
+
+export default env

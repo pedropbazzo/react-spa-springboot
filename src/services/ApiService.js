@@ -1,5 +1,5 @@
 import axios from 'axios'
-import {REST_API_URL} from '../App.constant'
+import {getRestApiBaseUrl} from './ConstantService'
 
 class ApiService {
     get(url) {
@@ -21,14 +21,25 @@ class ApiService {
         return axios.delete(url)
     }*/
 
+    
+    /**
+     * 
+     * @param {String} apiEndPoint 
+     * return String apiEndPoint
+     * Values of apiEndPoint that are handled by this function
+     * http://REST_API_BASE_URL/API_ENDPOINT (http://localhost/hello-world)
+     * https://REST_API_BASE_URL/API_ENDPOINT (https://localhost/hello-world)
+     * /API_ENDPOINT (/hello-world)
+     * API_ENDPOINT (hello-world)
+     */
     getRestEndPointUrl(apiEndPoint) {
-        // needs more testing
-        if(apiEndPoint.indexOf(REST_API_URL) === -1) {
+        let restApiBaseUrl = getRestApiBaseUrl()
+        if(apiEndPoint.indexOf(restApiBaseUrl) === -1) {
             // check if the Endpoint begins with '/'. If not, add '/'
             if(apiEndPoint.charAt(0) !== '/') {
                 apiEndPoint = '/' + apiEndPoint
             }
-            return REST_API_URL + apiEndPoint
+            return restApiBaseUrl + apiEndPoint
         }
         return apiEndPoint
     }
