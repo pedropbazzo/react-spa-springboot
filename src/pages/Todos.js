@@ -1,16 +1,24 @@
 import React, {Component} from 'react'
+import ApiService from '../services/ApiService'
+import AuthenticationService from '../services/AuthenticationService'
 
 class Todos extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            todos: [
-                {id: 1, description: 'Wake Up', done: false, targetDate: new Date()},
-                {id: 2, description: 'Exercise', done: false, targetDate: new Date()},
-                {id: 3, description: 'Eat Breakfast', done: false, targetDate: new Date()},
-                {id: 4, description: 'Shower', done: false, targetDate: new Date()}
-            ]
+            todos: []
         }
+    }
+
+    retrieveAllTodos(username) {
+        ApiService.get(`/users/${username}/todos`)
+        .then(todos => this.setState({todos}))
+        .catch(error => console.log(error))
+    }
+
+    componentDidMount() {
+        let username = AuthenticationService.getLoggedInUser()
+        this.retrieveAllTodos(username)
     }
     
     render() {
