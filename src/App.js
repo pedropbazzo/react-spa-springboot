@@ -9,6 +9,7 @@ import Logout from './pages/Logout';
 import Welcome from './pages/Welcome';
 import Todos from './pages/Todos';
 import RouteNotFound from './pages/RouteNotFound';
+import RestApiCall from './components/RestApiCall'
 
 // components
 import Header from './components/Header';
@@ -53,7 +54,30 @@ function App() {
             <UnauthenticatedRoute path="/login" component={Login} />
             <AuthenticatedRoute path="/logout" component={Logout} />
             <AuthenticatedRoute path="/welcome" component={Welcome} />
-            <AuthenticatedRoute path="/todos" component={Todos} />
+            <AuthenticatedRoute exact
+              path="/todos" 
+              render={
+                (props) => {
+                  let endPointUrl = '/users/';
+                  return <RestApiCall {...props} 
+                    render={
+                      todos => <Todos todos={todos} />
+                    } 
+                  />
+                }
+              } 
+            />
+            <AuthenticatedRoute exact 
+              path="/todos/:id" 
+              render={
+                (props) => 
+                <RestApiCall {...props} 
+                  render={
+                    todos => <Todos todos={todos} />
+                  } 
+                />
+              }
+            />
             <Route path="" component={RouteNotFound} />
           </Switch>
           <Footer />
