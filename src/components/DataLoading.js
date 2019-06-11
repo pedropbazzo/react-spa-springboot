@@ -20,8 +20,8 @@ class DataLoading extends Component {
     
     render() {
         return (
-            <div className='sweet-loading'>
-                <div>Fetching the data ...</div>
+            <div className='sweet-loadingss'>
+                <div>Fetching the {this.props.fetchingText} ...</div>
                 <RingLoader
                     css={override}
                     sizeUnit={"px"}

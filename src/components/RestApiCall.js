@@ -15,14 +15,14 @@ class RestApiCall extends Component {
     componentDidMount() {
         this.setState({loading: true})
         ApiService.get(this.props.endPoint)
-            .then(todos => this.setState({data: todos}))
+            .then(data => this.setState({data}))
             .catch(error => console.log(error))
             .finally(() => this.setState({loading: false}))
     }
 
     render() {
         if(this.state.loading) {
-            return <DataLoading />
+            return <DataLoading fetchingText={this.props.fetchingText} />
         }
         return this.props.render(this.state.data)
     }

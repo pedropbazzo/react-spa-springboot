@@ -60,7 +60,7 @@ function App() {
                 (props) => {
                   let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUser()
                   let endPoint = `/users/${userId}/todos`;
-                  return <RestApiCall {...props} endPoint={endPoint}
+                  return <RestApiCall {...props} endPoint={endPoint} fetchingText="todos"
                     render={
                       todos => <Todos todos={todos} />
                     } 
