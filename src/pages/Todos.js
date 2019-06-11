@@ -4,7 +4,7 @@ function Todos(props) {
     return (
         <div className="container">
             <h1>List Todos</h1>
-            <table className="table">
+            {props.todos.length > 0 && (<table className="table">
                 <thead>
                     <tr>
                         <th>Description</th>
@@ -23,7 +23,7 @@ function Todos(props) {
                         )
                     }
                 </tbody>
-            </table>
+            </table>)}
         </div>
     )
 }
