@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import ApiService from '../services/ApiService'
 import DataLoading from './DataLoading'
+import RestApiErrorDisplay from './RestApiErrorDisplay'
 //import AuthenticationService from '../services/AuthenticationService'
 
 class RestApiCall extends Component {
@@ -8,6 +9,7 @@ class RestApiCall extends Component {
         super(props)
         this.state = {
             data: [],
+            error: '',
             loading: false
         }
     }
@@ -16,13 +18,16 @@ class RestApiCall extends Component {
         this.setState({loading: true})
         ApiService.get(this.props.endPoint)
             .then(data => this.setState({data}))
-            .catch(error => console.log(error))
+            .catch(error => this.setState({error: error.message}))
             .finally(() => this.setState({loading: false}))
     }
 
     render() {
         if(this.state.loading) {
             return <DataLoading fetchingText={this.props.fetchingText} />
+        }
+        if(this.state.error) {
+            return <RestApiErrorDisplay errorMessage={this.state.error} />
         }
         return this.props.render(this.state.data)
     }
