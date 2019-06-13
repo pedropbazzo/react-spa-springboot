@@ -1,10 +1,11 @@
 import React from 'react'
 
 function Todos(props) {
+    const todos = (props.todos) ? props.todos : []
     return (
         <div className="container">
             <h1>List Todos</h1>
-            {props.todos.length > 0 && (<table className="table">
+            {todos.length > 0 && (<table className="table">
                 <thead>
                     <tr>
                         <th>Description</th>

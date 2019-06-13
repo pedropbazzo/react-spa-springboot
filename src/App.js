@@ -9,7 +9,7 @@ import Logout from './pages/Logout';
 import Welcome from './pages/Welcome';
 import Todos from './pages/Todos';
 import RouteNotFound from './pages/RouteNotFound';
-import RestApiCall from './components/RestApiCall'
+import RestApiGetData from './components/RestApiGetData'
 
 // components
 import Header from './components/Header';
@@ -60,7 +60,7 @@ function App() {
                 (props) => {
                   let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUser()
                   let endPoint = `/users/${userId}/todos`;
-                  return <RestApiCall {...props} endPoint={endPoint} fetchingText="todos"
+                  return <RestApiGetData {...props} endPoint={endPoint} fetchingText="todos"
                     render={
                       todos => <Todos todos={todos} />
                     } 

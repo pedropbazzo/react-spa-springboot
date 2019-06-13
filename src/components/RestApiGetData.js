@@ -4,11 +4,11 @@ import DataLoading from './DataLoading'
 import RestApiErrorDisplay from './RestApiErrorDisplay'
 //import AuthenticationService from '../services/AuthenticationService'
 
-class RestApiCall extends Component {
+class RestApiGetData extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            data: [],
+            data: null,
             error: '',
             loading: false
         }
@@ -33,4 +33,4 @@ class RestApiCall extends Component {
     }
 }
 
-export default RestApiCall
+export default RestApiGetData

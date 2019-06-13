@@ -6,8 +6,9 @@ const style = {
   };
 
 function RestApiErrorDisplay(props) {
+    const errorMessage = (props.errorMessage) ? props.errorMessage : 'Something went wrong'
     return (
-        <div style={style}>{props.errorMessage}</div>
+        <div style={style}>{errorMessage}</div>
     )
 }
 
