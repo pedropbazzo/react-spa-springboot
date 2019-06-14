@@ -2,6 +2,7 @@ import React from 'react'
 
 function Todos(props) {
     const todos = (props.todos) ? props.todos : []
+    const dateFormat = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     return (
         <div className="container">
             <h1>List Todos</h1>
@@ -19,7 +20,8 @@ function Todos(props) {
                             <tr key={todo.id}>
                                 <td>{todo.description}</td>
                                 <td>{todo.done.toString()}</td>
-                                <td>{todo.targetDate.toString()}</td>
+                                <td>{new Date(todo.targetDate).toLocaleDateString("en-US", dateFormat)}</td>
+                                {/* <td>{new Date(todo.targetDate).toLocaleDateString("hi-IN", dateFormat)}</td> */}
                             </tr>
                         )
                     }
