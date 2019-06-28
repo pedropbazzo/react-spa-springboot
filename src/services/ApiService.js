@@ -8,6 +8,12 @@ class ApiService {
             .then(response => {return this.onSuccess(response)})
             .catch(error => {return this.onError(error)})
     }
+
+    delete(deleteUrl) {
+        return axios.delete(deleteUrl)
+        .then(response => {return this.onSuccess(response)})
+        .catch(error => {return this.onError(error)})
+    }
     
     /*post(url, data) {
         return axios.post(url, data)
