@@ -1,30 +1,42 @@
 import React, { Component } from 'react'
 import ApiService from '../services/ApiService';
 
-//import ApiService from '../services/ApiService'
-
 class RestApiDeleteActionButton extends Component {
+    _isMounted = false
+    
     constructor(props) {
         super(props)
         this.state = {
             inProcess: false
         }
     }
+
+    componentDidMount() {
+        this._isMounted = true
+    }
+
+    componentWillUnmount() {
+        this._isMounted = false
+    }
     
     onClickRestDelete(deleteUrl) {
-        //ApiService.delete
         this.setState({inProcess: true})
         ApiService.delete(deleteUrl)
-        .then((response) => {
-            console.log(this.props)
-            console.log("1")
-            //if(this.props.onDeletSuccess) {
-                console.log("2")
-                this.props.onDeletSuccess()
-            //}
-        })
-        .catch((error) => console.log(error))
-        .finally(() => {this.setState({"inProcess": false})})
+            .then(() => {
+                // show a success message
+                if(this.props.onDeleteSuccess) {
+                    this.props.onDeleteSuccess()
+                }
+            })
+            .catch((error) => {
+                // show an error message
+                console.log(error)
+            })
+            .finally(() => {
+                if(this._isMounted) {
+                    this.setState({inProcess: false})
+                }
+            })
     }
 
     render() {

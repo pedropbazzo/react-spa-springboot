@@ -5,12 +5,12 @@ import AuthenticationService from '../services/AuthenticationService'
 import ApiService from '../services/ApiService'
 
 class Todos extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
             todos: (this.props.todos) ? this.props.todos : []
         }
-        //this.removeTodoFromList = this.removeTodoFromList.bind(this)
     }
 
     render() {
@@ -41,10 +41,8 @@ class Todos extends Component {
                                     <td>
                                         <RestApiDeleteActionButton 
                                         deleteUrl={ApiService.getRestEndPointUrl(deleteUrl + todo.id)} 
-                                        //deleteId={todo.id} 
                                         onDeleteSuccess = {() => this.removeTodoFromList(todo)} />
                                     </td>
-                                    {/** <RestApiActionButton render= */}
                                 </tr>
                             )
                         }
@@ -54,8 +52,11 @@ class Todos extends Component {
         )
     }
 
-    removeTodoFromList(todo) {
-        console.log(todo)
+    removeTodoFromList(todoToRemove) {
+        const refreshedTodos = this.state.todos.filter(function(todo) {
+            return todoToRemove !== todo
+        })
+        this.setState({todos: refreshedTodos})
     }
 
 }
