@@ -9,7 +9,8 @@ class Todos extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            todos: (this.props.todos) ? this.props.todos : []
+            todos: (this.props.todos) ? this.props.todos : [],
+            deleteMessage: null
         }
     }
 
@@ -20,7 +21,8 @@ class Todos extends Component {
 
         return (
             <div className="container">
-                <h1>List Todos</h1>
+                {this.state.deleteMessage && (<div className="alert alert-success">{this.state.deleteMessage}</div>)}
+                <h1>Todos List</h1>
                 {this.state.todos.length > 0 && (<table className="table">
                     <thead>
                         <tr>
@@ -56,7 +58,10 @@ class Todos extends Component {
         const refreshedTodos = this.state.todos.filter(function(todo) {
             return todoToRemove !== todo
         })
-        this.setState({todos: refreshedTodos})
+        this.setState({
+            todos: refreshedTodos,
+            deleteMessage: `Todo ${todoToRemove.id} deleted successfully`
+        })
     }
 
 }
