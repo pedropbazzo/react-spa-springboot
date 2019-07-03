@@ -21,7 +21,7 @@ class DataLoading extends Component {
     render() {
         return (
             <div className='sweet-loadings'>
-                <div>Fetching the {this.props.fetchingText} ...</div>
+                <div>{this.props.fetchingText} ...</div>
                 <ClipLoader
                     css={override}
                     sizeUnit={"px"}
