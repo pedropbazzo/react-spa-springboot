@@ -25,7 +25,7 @@ class DataLoading extends Component {
                 <ClipLoader
                     css={override}
                     sizeUnit={"px"}
-                    size={50}
+                    size={25}
                     color={'#D75D36'}
                     loading={this.state.loading}
                 />
