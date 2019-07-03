@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import DeleteButton from '../components/DeleteButton'
+import ClickButton from '../components/ClickButton'
 import DataLoading from '../components/DataLoading'
 
 import AuthenticationService from '../services/AuthenticationService'
@@ -15,7 +15,7 @@ class Todos extends Component {
             deleteMessage: null,
             loading: false,
             error: null,
-            deleteButtonDisabled: null
+            buttonDisabled: null
         }
         this.user = (props.userId) ? props.userId : AuthenticationService.getLoggedInUser()
     }
@@ -45,7 +45,7 @@ class Todos extends Component {
                             <th>Description</th>
                             <th>Is Completed?</th>
                             <th>Target Date</th>
-                            <th>Delete</th>
+                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,10 +56,16 @@ class Todos extends Component {
                                     <td>{todo.done.toString()}</td>
                                     <td>{new Date(todo.targetDate).toLocaleDateString("en-US", dateFormat)}</td>
                                     <td>
-                                        <DeleteButton 
+                                        <ClickButton 
+                                            btnType="delete"
                                             onClick={() => this.deleteTodo(todo)} 
-                                            disabled={todo.id === this.state.deleteButtonDisabled}
-                                        ></DeleteButton>
+                                            disabled={todo.id === this.state.buttonDisabled}
+                                        ></ClickButton>
+                                        <ClickButton 
+                                            btnType="update"
+                                            onClick={() => this.updateTodo(todo)} 
+                                            disabled={todo.id === this.state.buttonDisabled}
+                                        ></ClickButton>                                        
                                     </td>
                                 </tr>
                             )
@@ -72,7 +78,7 @@ class Todos extends Component {
     
     deleteTodo(deleteTodo) {
         const deleteUrl = ApiService.getRestEndPointUrl(`/users/${this.user}/todos/${deleteTodo.id}`)
-        this.setState({deleteButtonDisabled: deleteTodo.id})
+        this.setState({buttonDisabled: deleteTodo.id})
         ApiService.delete(deleteUrl)
         .then(() => {
             const refreshedTodos = this.state.todos.filter(function(todo) {
@@ -90,8 +96,12 @@ class Todos extends Component {
             })
         })
         .finally(() => {
-            this.setState({deleteButtonDisabled: null})
+            this.setState({buttonDisabled: null})
         })
+    }
+
+    updateTodo(updateTodo) {
+        console.log(updateTodo)
     }
 
 }
