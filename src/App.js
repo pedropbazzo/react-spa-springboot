@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import Logout from './pages/Logout';
 import Welcome from './pages/Welcome';
 import Todos from './pages/Todos';
+import Todo from './pages/Todo';
 import RouteNotFound from './pages/RouteNotFound';
 
 // components
@@ -53,8 +54,8 @@ function App() {
             <UnauthenticatedRoute path="/login" component={Login} />
             <AuthenticatedRoute path="/logout" component={Logout} />
             <AuthenticatedRoute path="/welcome" component={Welcome} />
-            <AuthenticatedRoute
-              path="/todos" 
+            <AuthenticatedRoute exact path="/todos/:id" component={Todo} />
+            <AuthenticatedRoute exact path="/todos" 
               render={
                 (props) => {
                   let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUser()

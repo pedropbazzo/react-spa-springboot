@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from "react-router-dom";
 import ClickButton from '../components/ClickButton'
 import DataLoading from '../components/DataLoading'
 
@@ -45,7 +46,7 @@ class Todos extends Component {
                             <th>Description</th>
                             <th>Is Completed?</th>
                             <th>Target Date</th>
-                            <th>Actions</th>
+                            <th><span className="float-left">Actions</span></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -56,16 +57,20 @@ class Todos extends Component {
                                     <td>{todo.done.toString()}</td>
                                     <td>{new Date(todo.targetDate).toLocaleDateString("en-US", dateFormat)}</td>
                                     <td>
+                                        <div className="float-left" style={{"margin": "0px 2px"}}>
                                         <ClickButton 
                                             btnType="delete"
                                             onClick={() => this.deleteTodo(todo)} 
                                             disabled={todo.id === this.state.buttonDisabled}
                                         ></ClickButton>
+                                        </div>
+                                        <div className="float-left" style={{"margin": "0px 2px"}}>
                                         <ClickButton 
                                             btnType="update"
                                             onClick={() => this.updateTodo(todo)} 
                                             disabled={todo.id === this.state.buttonDisabled}
-                                        ></ClickButton>                                        
+                                        ></ClickButton>
+                                        </div>                                      
                                     </td>
                                 </tr>
                             )
@@ -101,9 +106,9 @@ class Todos extends Component {
     }
 
     updateTodo(updateTodo) {
-        console.log(updateTodo)
+        this.props.history.push(`/todos/${updateTodo.id}`)
     }
 
 }
 
-export default Todos;
+export default withRouter(Todos)
