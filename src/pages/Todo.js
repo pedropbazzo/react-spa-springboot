@@ -2,13 +2,22 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
+import DataLoading from '../components/DataLoading'
+
+import AuthenticationService from '../services/AuthenticationService'
+import ApiService from '../services/ApiService'
+
 class Todo extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            id: this.props.match.params.id,
-            description: 'Lear',
-            targetDate: moment(new Date()).format('YYYY-MM-DD')
+            todo: {
+                id: this.props.match.params.id,
+                description: '',
+                targetDate: moment(new Date()).format('YYYY-MM-DD') 
+            },
+            restError: null,
+            loading: false
         }
         this.onSubmit = this.onSubmit.bind(this)
         this.validate = this.validate.bind(this)
@@ -31,18 +40,41 @@ class Todo extends Component {
         }
         return errors
     }
+
+    componentDidMount() {
+        let user = AuthenticationService.getLoggedInUser()
+        this.setState({loading: true})
+        ApiService.get(`/users/${user}/todos/${this.state.todo.id}`)
+            .then(todo => {
+                this.setState({
+                    todo: {
+                        description: todo.description,
+                        targetDate: moment(todo.targetDate).format('YYYY-MM-DD')
+                    }
+                })
+            })
+            .catch(error => this.setState({restError: error.message}))
+            .finally(() => this.setState({loading: false}))
+    }
     
     render() {
-        let { description, targetDate } = this.state
+        let { description, targetDate } = this.state.todo
+
+        if(this.state.loading) {
+            return <DataLoading fetchingText="Fetching Todo" />
+        }
+
         return (
             <div className="container">
                 <h2>Todo</h2>
-                <Formik 
+                {this.state.restError && (<div className="alert alert-danger">{this.state.restError}</div>)}
+                {!this.state.restError && (<Formik 
                     initialValues={{description, targetDate}} 
                     onSubmit={this.onSubmit} 
                     validate = {this.validate}
                     validateOnChange={false}
                     validateOnBlur={false}
+                    enableReinitialize={true}
                 >
                     {
                         (props) => (
@@ -61,7 +93,7 @@ class Todo extends Component {
                             </Form>
                         )
                     }
-                </Formik>
+                </Formik>)}
             </div>
         )
     }
