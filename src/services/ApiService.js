@@ -15,17 +15,18 @@ class ApiService {
         .catch(error => {return this.onError(error)})
     }
     
-    /*post(url, data) {
+    post(url, data) {
         return axios.post(url, data)
+        .then(response => {return this.onSuccess(response)})
+        .catch(error => {return this.onError(error)})
     }
      
     put(url, data) {
-        return axios.put(url, data)
+        let restApiEndPoint = this.getRestEndPointUrl(url)
+        return axios.put(restApiEndPoint, data)
+        .then(response => {return this.onSuccess(response)})
+        .catch(error => {return this.onError(error)})
     }
-     
-    delete(url) {
-        return axios.delete(url)
-    }*/
 
     
     /**

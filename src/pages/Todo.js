@@ -6,6 +6,7 @@ import DataLoading from '../components/DataLoading'
 
 import AuthenticationService from '../services/AuthenticationService'
 import ApiService from '../services/ApiService'
+import TodoService from '../services/TodoService';
 
 class Todo extends Component {
     constructor(props) {
@@ -14,7 +15,7 @@ class Todo extends Component {
             todo: {
                 id: this.props.match.params.id,
                 description: '',
-                targetDate: moment(new Date()).format('YYYY-MM-DD') 
+                targetDate: moment(new Date()).format('YYYY-MM-DD')
             },
             restError: null,
             loading: false
@@ -23,8 +24,18 @@ class Todo extends Component {
         this.validate = this.validate.bind(this)
     }
 
-    onSubmit(values) {
-        console.log(values)
+    onSubmit(values) {console.log(this.state)
+        let user = AuthenticationService.getLoggedInUser()
+        let todo = {
+            id: this.state.todo.id,
+            description: values.description,
+            targetDate: values.targetDate
+        }
+        
+        TodoService.updateTodo(todo, user)
+        .then(() => {
+            this.props.history.push('/todos')
+        })
     }
 
     validate(values) {
@@ -48,6 +59,7 @@ class Todo extends Component {
             .then(todo => {
                 this.setState({
                     todo: {
+                        ...this.state.todo,
                         description: todo.description,
                         targetDate: moment(todo.targetDate).format('YYYY-MM-DD')
                     }
