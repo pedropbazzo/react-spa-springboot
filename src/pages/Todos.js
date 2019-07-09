@@ -58,18 +58,18 @@ class Todos extends Component {
                                     <td>{new Date(todo.targetDate).toLocaleDateString("en-US", dateFormat)}</td>
                                     <td>
                                         <div className="float-left" style={{"margin": "0px 2px"}}>
-                                        <ClickButton 
-                                            btnType="delete"
-                                            onClick={() => this.deleteTodo(todo)} 
-                                            disabled={todo.id === this.state.buttonDisabled}
-                                        ></ClickButton>
+                                            <ClickButton 
+                                                btnType="update"
+                                                onClick={() => this.updateTodo(todo)} 
+                                                disabled={todo.id === this.state.buttonDisabled}
+                                            />
                                         </div>
                                         <div className="float-left" style={{"margin": "0px 2px"}}>
-                                        <ClickButton 
-                                            btnType="update"
-                                            onClick={() => this.updateTodo(todo)} 
-                                            disabled={todo.id === this.state.buttonDisabled}
-                                        ></ClickButton>
+                                            <ClickButton 
+                                                btnType="delete"
+                                                onClick={() => this.deleteTodo(todo)} 
+                                                disabled={todo.id === this.state.buttonDisabled}
+                                            />
                                         </div>                                      
                                     </td>
                                 </tr>
