@@ -49,12 +49,12 @@ class Todo extends Component {
                             <Form>
                                 <fieldset className="form-group">
                                     <label>Description</label>
-                                    <Field className="form-control" type="text" name="description" />
+                                    <Field className={"form-control " + ((props.errors.description) ? "is-invalid" : "")} type="text" name="description" />
                                     <ErrorMessage name="description" component="div" className="text-danger" />
                                 </fieldset>
                                 <fieldset className="form-group">
                                     <label>Target Date</label>
-                                    <Field className="form-control" type="date" name="targetDate" />
+                                    <Field className={"form-control " + ((props.errors.targetDate) ? "is-invalid" : "")} type="date" name="targetDate" />
                                     <ErrorMessage name="targetDate" component="div" className="text-danger" />
                                 </fieldset>
                                 <button className="btn btn-success" type="submit">Save</button>
