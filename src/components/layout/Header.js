@@ -1,8 +1,9 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom';
-import LogoutLink from '../components/LogoutLink'
-import AppContext from '../AppContext'
 //import { withRouter } from 'react-router-dom'
+
+import LogoutLink from '../htmlElement/LogoutLink'
+import AppContext from '../../AppContext'
 
 
 class Header extends Component {

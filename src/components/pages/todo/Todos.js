@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
-import ClickButton from '../../components/ClickButton'
-import DataLoading from '../../components/DataLoading'
 
-import AuthenticationService from '../../services/AuthenticationService'
-import ApiService from '../../services/ApiService'
+import ClickButton from '../../htmlElement/ClickButton'
+import DataLoading from '../../effects/DataLoading'
+
+import AuthenticationService from '../../../services/AuthenticationService'
+import ApiService from '../../../services/ApiService'
 
 class Todos extends Component {
 

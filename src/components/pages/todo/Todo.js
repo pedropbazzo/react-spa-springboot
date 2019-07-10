@@ -2,11 +2,11 @@ import React, { Component } from 'react'
 import moment from 'moment'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
-import DataLoading from '../../components/DataLoading'
+import DataLoading from '../../effects/DataLoading'
 
-import AuthenticationService from '../../services/AuthenticationService'
-import ApiService from '../../services/ApiService'
-import TodoService from '../../services/TodoService';
+import AuthenticationService from '../../../services/AuthenticationService'
+import ApiService from '../../../services/ApiService'
+import TodoService from '../../../services/TodoService';
 
 class Todo extends Component {
     constructor(props) {
