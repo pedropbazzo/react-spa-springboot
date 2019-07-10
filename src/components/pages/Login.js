@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
-import AuthenticationService from '../services/AuthenticationService'
 
-import AppContext from '../AppContext'
+import AuthenticationService from '../../services/AuthenticationService'
+
+import AppContext from '../../AppContext'
 
 class Login extends Component {
     constructor(props) {

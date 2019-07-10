@@ -4,12 +4,12 @@ import './App.css';
 import './bootstrap.css';
 
 // pages
-import Login from './pages/Login';
-import Logout from './pages/Logout';
-import Welcome from './pages/Welcome';
-import Todos from './pages/Todos';
-import Todo from './pages/Todo';
-import RouteNotFound from './pages/RouteNotFound';
+import Login from './components/pages/Login';
+import Logout from './components/pages/Logout';
+import Welcome from './components/pages/Welcome';
+import Todos from './components/pages/Todos';
+import Todo from './components/pages/Todo';
+import RouteNotFound from './components/pages/RouteNotFound';
 
 // components
 import Header from './components/Header';

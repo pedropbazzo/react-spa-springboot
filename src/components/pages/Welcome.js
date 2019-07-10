@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import {Link} from 'react-router-dom';
-import ApiService from '../services/ApiService'
-import AuthenticationService from '../services/AuthenticationService'
+
+import ApiService from '../../services/ApiService'
+import AuthenticationService from '../../services/AuthenticationService'
 
 class Welcome extends Component {
     constructor(props) {
