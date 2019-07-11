@@ -23,7 +23,7 @@ class Todo extends Component {
                 description: '',
                 targetDate: moment(new Date()).format('YYYY-MM-DD')
             },
-            restError: null,
+            apiError: null,
             loading: false
         }
         this.onSubmit = this.onSubmit.bind(this)
@@ -43,12 +43,11 @@ class Todo extends Component {
         TodoService.updateTodo(todo, user)
         .then(() => {
             this.todoContext.updateTodoSuccess()
+            this.props.history.push('/todos')
         })
         .catch(() => {
-            this.todoContext.updateTodoError()
-        })
-        .finally(() => {
-            this.props.history.push('/todos')
+            //this.todoContext.updateTodoError()
+            this.setState({apiError: 'ERROR: TODO NOT UPDATED'})
         })
     }
 
@@ -84,7 +83,7 @@ class Todo extends Component {
                     }
                 })
             })
-            .catch(error => this.setState({restError: error.message}))
+            .catch(error => this.setState({apiError: error.message}))
             .finally(() => this.setState({loading: false}))
     }
     
@@ -101,9 +100,9 @@ class Todo extends Component {
                     this.todoContext = context
                     return (
                         <div className="container">
+                            {this.state.apiError && (<div className="alert alert-danger">{this.state.apiError}</div>)}
                             <h2>Todo</h2>
-                            {this.state.restError && (<div className="alert alert-danger">{this.state.restError}</div>)}
-                            {!this.state.restError && (
+                            {description.length > 0 && (
                                 <Formik 
                                     initialValues={{description, targetDate}} 
                                     onSubmit={this.onSubmit} 
