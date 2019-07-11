@@ -48,7 +48,8 @@ class Todos extends Component {
                         <div className="container">
                             {this.state.apiError && (<div className="alert alert-danger">{this.state.apiError}</div>)}
                             {this.state.deleteMessage && (<div className="alert alert-success">{this.state.deleteMessage}</div>)}
-                            {(context.state.todoUpdateStatus === true) && (<div className="alert alert-success">SUCCESS: TODO UPDATED</div>)}
+                            {(context.state.todoActionStatus === true) && (<div className="alert alert-success">{context.state.todoActionMessage}</div>)}
+                            {(context.state.todoActionStatus === false) && (<div className="alert alert-danger">{context.state.todoActionMessage}</div>)}
                             {this.state.todos.length > 0 && (
                                 <table className="table">
                                     <thead>
@@ -110,7 +111,7 @@ class Todos extends Component {
                 return deleteTodo !== todo
             })
 
-            this.todoContext.resetUpdateTodo()
+            this.todoContext.todoActionReset()
             
             this.setState({
                 todos: refreshedTodos,

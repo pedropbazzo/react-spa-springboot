@@ -38,16 +38,13 @@ class Todo extends Component {
             targetDate: values.targetDate
         }
         
-        //let todoServicePromise = null
-        /*if(this.state.todo.id === 'add') {
-            todoServicePromise = TodoService.addTodo(todo, user)
-        } else {
-            todoServicePromise = TodoService.upsertTodo(todo, user)
-        }*/
-        
         TodoService.addUpdateTodo(todo, user)
         .then(() => {
-            this.todoContext.updateTodoSuccess()
+            let action = 'add'
+            if(todo.id) {
+                action = 'update'
+            } 
+            this.todoContext.todoActionSuccess(action)
             this.props.history.push('/todos')
         })
         .catch(() => {
@@ -86,7 +83,7 @@ class Todo extends Component {
         
         /* calling this fn, else success/error message is always displayed when 
         just navigating from Todo to Todos */
-        this.todoContext.resetUpdateTodo() 
+        this.todoContext.todoActionReset() 
         
         ApiService.get(`/users/${user}/todos/${this.state.todo.id}`)
             .then(todo => {

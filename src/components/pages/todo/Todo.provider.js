@@ -5,16 +5,46 @@ import TodoContext from './Todo.context';
 
 class TodoProvider extends Component {
     state = {
-      todoUpdateStatus: null
+      todoActionStatus: null,
+      todoActionMessage: ''
     }
   
     render() {
       return (
         <TodoContext.Provider value={{
           state: this.state,
-          resetUpdateTodo: () => {this.setState({todoUpdateStatus: null})},
-          updateTodoSuccess: () => {this.setState({todoUpdateStatus: true})},
-          updateTodoError: () => {this.setState({todoUpdateStatus: false})}
+          todoActionSuccess: (action) => {
+            let todoActionMessage = 'SUCCESS:'
+            if(action === 'add') {
+              todoActionMessage += ' TODO ADDED'
+            }
+            if(action === 'update') {
+              todoActionMessage += ' TODO UPDATED'
+            }
+            this.setState({
+              todoActionStatus: true,
+              todoActionMessage
+            })
+          },
+          todoActionError: (action) => {
+            let todoActionMessage = 'ERROR:'
+            if(action === 'add') {
+              todoActionMessage += ' TODO NOT ADDED'
+            }
+            if(action === 'update') {
+              todoActionMessage += ' TODO NOT UPDATED'
+            }
+            this.setState({
+              todoActionStatus: false,
+              todoActionMessage
+            })
+          },
+          todoActionReset: () => {
+            this.setState({
+              todoActionStatus: null,
+              todoActionMessage: ''
+            })
+          }
         }} >
           {this.props.children}
         </TodoContext.Provider>
