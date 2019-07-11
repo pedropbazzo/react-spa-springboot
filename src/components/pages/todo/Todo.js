@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { withRouter } from "react-router-dom";
 import moment from 'moment'
 import { Formik, Form, Field, ErrorMessage } from 'formik';
 
@@ -8,7 +9,12 @@ import AuthenticationService from '../../../services/AuthenticationService'
 import ApiService from '../../../services/ApiService'
 import TodoService from '../../../services/TodoService';
 
+import TodoContext from './Todo.context'
+
 class Todo extends Component {
+    
+    todoContext = null
+
     constructor(props) {
         super(props)
         this.state = {
@@ -32,8 +38,16 @@ class Todo extends Component {
             targetDate: values.targetDate
         }
         
+        // eventually remove finally and if there is an error while updating todo, stay on same page
+        
         TodoService.updateTodo(todo, user)
         .then(() => {
+            this.todoContext.updateTodoSuccess()
+        })
+        .catch(() => {
+            this.todoContext.updateTodoError()
+        })
+        .finally(() => {
             this.props.history.push('/todos')
         })
     }
@@ -55,6 +69,11 @@ class Todo extends Component {
     componentDidMount() {
         let user = AuthenticationService.getLoggedInUser()
         this.setState({loading: true})
+        
+        /* calling this fn, else success/error message is always displayed when 
+        just navigating from Todo to Todos */
+        this.todoContext.resetUpdateTodo() 
+        
         ApiService.get(`/users/${user}/todos/${this.state.todo.id}`)
             .then(todo => {
                 this.setState({
@@ -77,38 +96,47 @@ class Todo extends Component {
         }
 
         return (
-            <div className="container">
-                <h2>Todo</h2>
-                {this.state.restError && (<div className="alert alert-danger">{this.state.restError}</div>)}
-                {!this.state.restError && (<Formik 
-                    initialValues={{description, targetDate}} 
-                    onSubmit={this.onSubmit} 
-                    validate = {this.validate}
-                    validateOnChange={false}
-                    validateOnBlur={false}
-                    enableReinitialize={true}
-                >
-                    {
-                        (props) => (
-                            <Form>
-                                <fieldset className="form-group">
-                                    <label>Description</label>
-                                    <Field className={"form-control " + ((props.errors.description) ? "is-invalid" : "")} type="text" name="description" />
-                                    <ErrorMessage name="description" component="div" className="text-danger" />
-                                </fieldset>
-                                <fieldset className="form-group">
-                                    <label>Target Date</label>
-                                    <Field className={"form-control " + ((props.errors.targetDate) ? "is-invalid" : "")} type="date" name="targetDate" />
-                                    <ErrorMessage name="targetDate" component="div" className="text-danger" />
-                                </fieldset>
-                                <button className="btn btn-success" type="submit">Save</button>
-                            </Form>
-                        )
-                    }
-                </Formik>)}
-            </div>
+            <TodoContext.Consumer>
+                {(context) => {
+                    this.todoContext = context
+                    return (
+                        <div className="container">
+                            <h2>Todo</h2>
+                            {this.state.restError && (<div className="alert alert-danger">{this.state.restError}</div>)}
+                            {!this.state.restError && (
+                                <Formik 
+                                    initialValues={{description, targetDate}} 
+                                    onSubmit={this.onSubmit} 
+                                    validate = {this.validate}
+                                    validateOnChange={false}
+                                    validateOnBlur={false}
+                                    enableReinitialize={true}
+                                >
+                                    {
+                                        (props) => (
+                                            <Form>
+                                                <fieldset className="form-group">
+                                                    <label>Description</label>
+                                                    <Field className={"form-control " + ((props.errors.description) ? "is-invalid" : "")} type="text" name="description" />
+                                                    <ErrorMessage name="description" component="div" className="text-danger" />
+                                                </fieldset>
+                                                <fieldset className="form-group">
+                                                    <label>Target Date</label>
+                                                    <Field className={"form-control " + ((props.errors.targetDate) ? "is-invalid" : "")} type="date" name="targetDate" />
+                                                    <ErrorMessage name="targetDate" component="div" className="text-danger" />
+                                                </fieldset>
+                                                <button className="btn btn-success" type="submit">Save</button>
+                                            </Form>
+                                        )
+                                    }
+                                </Formik>
+                            )}
+                        </div>
+                    )}
+                }
+            </TodoContext.Consumer>
         )
     }
 }
 
-export default Todo
+export default withRouter(Todo)

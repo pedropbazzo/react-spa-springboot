@@ -19,6 +19,7 @@ import UnauthenticatedRoute from './components/routes/UnauthenticatedRoute';
 
 // Context
 import AppContext from './AppContext';
+import TodoProvider from './components/pages/todo/Todo.provider'
 
 // service
 import AuthenticationService from './services/AuthenticationService';
@@ -54,12 +55,21 @@ function App() {
             <UnauthenticatedRoute path="/login" component={Login} />
             <AuthenticatedRoute path="/logout" component={Logout} />
             <AuthenticatedRoute path="/welcome" component={Welcome} />
-            <AuthenticatedRoute exact path="/todos/:id" component={Todo} />
+            {/* <AuthenticatedRoute exact path="/todos/:id" component={Todo} /> */}
+            <AuthenticatedRoute exact path="/todos/:id">
+              <TodoProvider>
+                <Todo />
+              </TodoProvider>
+            </AuthenticatedRoute>
             <AuthenticatedRoute exact path="/todos" 
               render={
                 (props) => {
                   let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUser()
-                  return <Todos userId={userId} />
+                  return (
+                    <TodoProvider>
+                      <Todos userId={userId} />
+                    </TodoProvider>
+                  )
                 }
               } 
             />

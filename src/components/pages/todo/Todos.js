@@ -7,9 +7,12 @@ import DataLoading from '../../effects/DataLoading'
 import AuthenticationService from '../../../services/AuthenticationService'
 import ApiService from '../../../services/ApiService'
 
+import TodoContext from './Todo.context'
+
 class Todos extends Component {
 
     user = null
+    
     constructor(props) {
         super(props)
         this.state = {
@@ -37,48 +40,58 @@ class Todos extends Component {
         }
 
         return (
-            <div className="container">
-                {this.state.error && (<div className="alert alert-danger">{this.state.error}</div>)}
-                {this.state.deleteMessage && (<div className="alert alert-success">{this.state.deleteMessage}</div>)}
-                {this.state.todos.length > 0 && (
-                    <table className="table">
-                    <thead>
-                        <tr>
-                            <th>Description</th>
-                            <th>Is Completed?</th>
-                            <th>Target Date</th>
-                            <th><span className="float-left">Actions</span></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            this.state.todos.map(todo => 
-                                <tr key={todo.id}>
-                                    <td>{todo.description}</td>
-                                    <td>{todo.done.toString()}</td>
-                                    <td>{new Date(todo.targetDate).toLocaleDateString("en-US", dateFormat)}</td>
-                                    <td>
-                                        <div className="float-left" style={{"margin": "0px 2px"}}>
-                                            <ClickButton 
-                                                btnType="update"
-                                                onClick={() => this.updateTodo(todo)} 
-                                                disabled={todo.id === this.state.buttonDisabled}
-                                            />
-                                        </div>
-                                        <div className="float-left" style={{"margin": "0px 2px"}}>
-                                            <ClickButton 
-                                                btnType="delete"
-                                                onClick={() => this.deleteTodo(todo)} 
-                                                disabled={todo.id === this.state.buttonDisabled}
-                                            />
-                                        </div>                                      
-                                    </td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>)}
-            </div>
+            <TodoContext.Consumer>
+                {(context) => {
+                        return (
+                                <div className="container">
+                                    <div>{context.state.testMsg}</div>
+                                    {this.state.error && (<div className="alert alert-danger">{this.state.error}</div>)}
+                                    {this.state.deleteMessage && (<div className="alert alert-success">{this.state.deleteMessage}</div>)}
+                                    {(context.state.todoUpdateStatus === true) && (<div className="alert alert-success">SUCCESS: TODO UPDATED</div>)}
+                                    {(context.state.todoUpdateStatus === false) && (<div className="alert alert-danger">ERROR: TODO NOT UPDATED</div>)}
+                                    {this.state.todos.length > 0 && (
+                                    <table className="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Description</th>
+                                            <th>Is Completed?</th>
+                                            <th>Target Date</th>
+                                            <th><span className="float-left">Actions</span></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            this.state.todos.map(todo => 
+                                                <tr key={todo.id}>
+                                                    <td>{todo.description}</td>
+                                                    <td>{todo.done.toString()}</td>
+                                                    <td>{new Date(todo.targetDate).toLocaleDateString("en-US", dateFormat)}</td>
+                                                    <td>
+                                                        <div className="float-left" style={{"margin": "0px 2px"}}>
+                                                            <ClickButton 
+                                                                btnType="update"
+                                                                onClick={() => this.updateTodo(todo)} 
+                                                                disabled={todo.id === this.state.buttonDisabled}
+                                                            />
+                                                        </div>
+                                                        <div className="float-left" style={{"margin": "0px 2px"}}>
+                                                            <ClickButton 
+                                                                btnType="delete"
+                                                                onClick={() => this.deleteTodo(todo)} 
+                                                                disabled={todo.id === this.state.buttonDisabled}
+                                                            />
+                                                        </div>                                      
+                                                    </td>
+                                                </tr>
+                                            )
+                                        }
+                                    </tbody>
+                                </table>)}
+                            </div>
+                        )
+                    }
+                }
+            </TodoContext.Consumer>
         )
     }
     
