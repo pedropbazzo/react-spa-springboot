@@ -33,21 +33,32 @@ class Todo extends Component {
     onSubmit(values) {
         let user = AuthenticationService.getLoggedInUser()
         let todo = {
-            id: this.state.todo.id,
+            id: (this.state.todo.id === 'add') ? null : this.state.todo.id,
             description: values.description,
             targetDate: values.targetDate
         }
         
-        // eventually remove finally and if there is an error while updating todo, stay on same page
+        //let todoServicePromise = null
+        /*if(this.state.todo.id === 'add') {
+            todoServicePromise = TodoService.addTodo(todo, user)
+        } else {
+            todoServicePromise = TodoService.upsertTodo(todo, user)
+        }*/
         
-        TodoService.updateTodo(todo, user)
+        TodoService.addUpdateTodo(todo, user)
         .then(() => {
             this.todoContext.updateTodoSuccess()
             this.props.history.push('/todos')
         })
         .catch(() => {
             //this.todoContext.updateTodoError()
-            this.setState({apiError: 'ERROR: TODO NOT UPDATED'})
+            let apiError = 'ERROR: TODO NOT '
+            if(todo.id) {
+                apiError += 'UPDATED'
+            } else {
+                apiError += 'ADDED'
+            }
+            this.setState({apiError})
         })
     }
 
@@ -66,6 +77,10 @@ class Todo extends Component {
     }
 
     componentDidMount() {
+        if(this.state.todo.id === 'add') {
+            return
+        }
+        
         let user = AuthenticationService.getLoggedInUser()
         this.setState({loading: true})
         
@@ -102,7 +117,7 @@ class Todo extends Component {
                         <div className="container">
                             {this.state.apiError && (<div className="alert alert-danger">{this.state.apiError}</div>)}
                             <h2>Todo</h2>
-                            {description.length > 0 && (
+                            {((this.state.todo.id === 'add') || (description.length > 0)) && (
                                 <Formik 
                                     initialValues={{description, targetDate}} 
                                     onSubmit={this.onSubmit} 

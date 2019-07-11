@@ -16,7 +16,8 @@ class ApiService {
     }
     
     post(url, data) {
-        return axios.post(url, data)
+        let restApiEndPoint = this.getRestEndPointUrl(url)
+        return axios.post(restApiEndPoint, data)
         .then(response => {return this.onSuccess(response)})
         .catch(error => {return this.onError(error)})
     }

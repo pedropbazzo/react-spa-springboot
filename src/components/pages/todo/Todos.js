@@ -12,6 +12,7 @@ import TodoContext from './Todo.context'
 class Todos extends Component {
 
     user = null
+    todoContext = null
     
     constructor(props) {
         super(props)
@@ -19,7 +20,7 @@ class Todos extends Component {
             todos: [],
             deleteMessage: null,
             loading: false,
-            error: null,
+            apiError: null,
             buttonDisabled: null
         }
         this.user = (props.userId) ? props.userId : AuthenticationService.getLoggedInUser()
@@ -42,15 +43,14 @@ class Todos extends Component {
         return (
             <TodoContext.Consumer>
                 {(context) => {
-                        return (
-                                <div className="container">
-                                    <div>{context.state.testMsg}</div>
-                                    {this.state.error && (<div className="alert alert-danger">{this.state.error}</div>)}
-                                    {this.state.deleteMessage && (<div className="alert alert-success">{this.state.deleteMessage}</div>)}
-                                    {(context.state.todoUpdateStatus === true) && (<div className="alert alert-success">SUCCESS: TODO UPDATED</div>)}
-                                    {(context.state.todoUpdateStatus === false) && (<div className="alert alert-danger">ERROR: TODO NOT UPDATED</div>)}
-                                    {this.state.todos.length > 0 && (
-                                    <table className="table">
+                    this.todoContext = context
+                    return (
+                        <div className="container">
+                            {this.state.apiError && (<div className="alert alert-danger">{this.state.apiError}</div>)}
+                            {this.state.deleteMessage && (<div className="alert alert-success">{this.state.deleteMessage}</div>)}
+                            {(context.state.todoUpdateStatus === true) && (<div className="alert alert-success">SUCCESS: TODO UPDATED</div>)}
+                            {this.state.todos.length > 0 && (
+                                <table className="table">
                                     <thead>
                                         <tr>
                                             <th>Description</th>
@@ -87,6 +87,12 @@ class Todos extends Component {
                                         }
                                     </tbody>
                                 </table>)}
+                                <div className="row">
+                                    <ClickButton 
+                                        btnType="add"
+                                        onClick={() => this.addTodo()}
+                                    />
+                                </div>
                             </div>
                         )
                     }
@@ -103,9 +109,13 @@ class Todos extends Component {
             const refreshedTodos = this.state.todos.filter(function(todo) {
                 return deleteTodo !== todo
             })
+
+            this.todoContext.resetUpdateTodo()
+            
             this.setState({
                 todos: refreshedTodos,
-                deleteMessage: `Todo ${deleteTodo.description} deleted successfully`
+                //deleteMessage: `Todo ${deleteTodo.description} deleted successfully`
+                deleteMessage: 'SUCCESS: TODO DELETED'
             })
         })
         .catch((error) => {
@@ -121,6 +131,10 @@ class Todos extends Component {
 
     updateTodo(updateTodo) {
         this.props.history.push(`/todos/${updateTodo.id}`)
+    }
+
+    addTodo() {
+        this.props.history.push('/todos/add')
     }
 
 }
