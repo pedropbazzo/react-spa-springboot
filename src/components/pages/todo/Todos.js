@@ -30,7 +30,7 @@ class Todos extends Component {
         this.setState({loading: true})
         ApiService.get(`/users/${this.user}/todos`)
             .then(todos => this.setState({todos}))
-            .catch(error => this.setState({error: error.message}))
+            .catch(error => this.setState({apiError: error.message}))
             .finally(() => this.setState({loading: false}))
     }
 
