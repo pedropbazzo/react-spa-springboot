@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { withRouter } from "react-router-dom";
 
-import ClickButton from '../../htmlElement/ClickButton'
+import ClickButton from '../../htmlElement/action/ClickButton'
 import DataLoading from '../../effects/DataLoading'
 
 import AuthenticationService from '../../../services/AuthenticationService'

@@ -1,9 +1,9 @@
 import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom';
 
-import AuthenticationService from '../../services/AuthenticationService'
+import AuthenticationService from '../../../services/AuthenticationService'
 
-import AppContext from '../../AppContext'
+import AppContext from '../../../AppContext'
 
 class LogoutLink extends Component {
     constructor(props) {

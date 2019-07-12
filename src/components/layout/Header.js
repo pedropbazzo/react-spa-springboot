@@ -2,7 +2,7 @@ import React, {Component} from 'react'
 import {NavLink} from 'react-router-dom';
 //import { withRouter } from 'react-router-dom'
 
-import LogoutLink from '../htmlElement/LogoutLink'
+import LogoutLink from '../htmlElement/action/LogoutLink'
 import AppContext from '../../AppContext'
 
 
