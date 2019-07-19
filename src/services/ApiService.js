@@ -1,30 +1,41 @@
 import axios from 'axios'
 import {getRestApiBaseUrl} from './ConstantService'
+import AuthenticationService from './AuthenticationService';
 
 class ApiService {
     get(url) {
         let restApiEndPoint = this.getRestEndPointUrl(url)
-        return axios.get(restApiEndPoint)
-            .then(response => {return this.onSuccess(response)})
-            .catch(error => {return this.onError(error)})
+        //let username = 'user'
+        //let password = 'password'
+        return axios.get(restApiEndPoint, {
+            headers: this.getAuthorizationHeader()
+        })
+        .then(response => {return this.onSuccess(response)})
+        .catch(error => {return this.onError(error)})
     }
 
     delete(deleteUrl) {
-        return axios.delete(deleteUrl)
+        return axios.delete(deleteUrl, {
+            headers: this.getAuthorizationHeader()
+        })
         .then(response => {return this.onSuccess(response)})
         .catch(error => {return this.onError(error)})
     }
     
     post(url, data) {
         let restApiEndPoint = this.getRestEndPointUrl(url)
-        return axios.post(restApiEndPoint, data)
+        return axios.post(restApiEndPoint, data, {
+            headers: this.getAuthorizationHeader()
+        })
         .then(response => {return this.onSuccess(response)})
         .catch(error => {return this.onError(error)})
     }
      
     put(url, data) {
         let restApiEndPoint = this.getRestEndPointUrl(url)
-        return axios.put(restApiEndPoint, data)
+        return axios.put(restApiEndPoint, data, {
+            headers: this.getAuthorizationHeader()
+        })
         .then(response => {return this.onSuccess(response)})
         .catch(error => {return this.onError(error)})
     }
@@ -50,6 +61,27 @@ class ApiService {
             return restApiBaseUrl + apiEndPoint
         }
         return apiEndPoint
+    }
+
+    getAuthorizationHeader() {
+        let username = 'user'
+        let password = 'password'
+        let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password)
+        return {
+                "Content-Type": 'application/json',
+                "Authorization": basicAuthHeader
+        }
+    }
+
+    setAxiosInterceptors(basicAuthHeader) {
+        axios.interceptors.request.use(
+            (config) => {
+                if(AuthenticationService.isUserLoggedIn()) {
+                    config.headers.Authorization = basicAuthHeader
+                }
+                return config
+            }
+        )
     }
 
     onSuccess(response) {

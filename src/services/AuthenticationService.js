@@ -1,6 +1,10 @@
+//import ApiService from "./ApiService";
+
 class AuthenticationService {
-    registerSuccessfulLogin(username) {
+    registerSuccessfulLogin(username, password) {
         sessionStorage.setItem('authenticatedUser', username)
+        //let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password)
+        //ApiService.setAxiosInterceptors(basicAuthHeader)
     }
 
     logout() {
