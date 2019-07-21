@@ -64,7 +64,11 @@ class ApiService {
     }
 
     getAuthorizationHeader() {
-        let username = 'user'
+        
+        // need to revisit this, as hard coding values is never a good practice.
+        // just putting it here to make sure REST API calls work
+        
+        let username = 'john.doe'
         let password = 'password'
         let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password)
         return {
