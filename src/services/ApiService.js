@@ -5,39 +5,50 @@ import AuthenticationService from './AuthenticationService';
 class ApiService {
     get(url) {
         let restApiEndPoint = this.getRestEndPointUrl(url)
-        //let username = 'user'
-        //let password = 'password'
-        return axios.get(restApiEndPoint, {
-            headers: this.getAuthorizationHeader()
-        })
-        .then(response => {return this.onSuccess(response)})
-        .catch(error => {return this.onError(error)})
+        
+        return axios.get(restApiEndPoint, this.getApiHeaders())
+            .then(response => {
+                return this.onSuccess(response)
+            })
+            .catch(error => {
+                return this.onError(error)
+            })
     }
 
-    delete(deleteUrl) {
-        return axios.delete(deleteUrl, {
-            headers: this.getAuthorizationHeader()
-        })
-        .then(response => {return this.onSuccess(response)})
-        .catch(error => {return this.onError(error)})
+    delete(url) {
+        let restApiEndPoint = this.getRestEndPointUrl(url)
+
+        return axios.delete(restApiEndPoint, this.getApiHeaders())
+            .then(response => {
+                return this.onSuccess(response)
+            })
+            .catch(error => {
+                return this.onError(error)
+            })
     }
     
     post(url, data) {
         let restApiEndPoint = this.getRestEndPointUrl(url)
-        return axios.post(restApiEndPoint, data, {
-            headers: this.getAuthorizationHeader()
-        })
-        .then(response => {return this.onSuccess(response)})
-        .catch(error => {return this.onError(error)})
+        
+        return axios.post(restApiEndPoint, data, this.getApiHeaders())
+            .then(response => {
+                return this.onSuccess(response)
+            })
+            .catch(error => {
+                return this.onError(error)
+            })
     }
      
     put(url, data) {
         let restApiEndPoint = this.getRestEndPointUrl(url)
-        return axios.put(restApiEndPoint, data, {
-            headers: this.getAuthorizationHeader()
-        })
-        .then(response => {return this.onSuccess(response)})
-        .catch(error => {return this.onError(error)})
+        
+        return axios.put(restApiEndPoint, data, this.getApiHeaders())
+            .then(response => {
+                return this.onSuccess(response)
+            })
+            .catch(error => {
+                return this.onError(error)
+            })
     }
 
     
@@ -63,7 +74,7 @@ class ApiService {
         return apiEndPoint
     }
 
-    getAuthorizationHeader() {
+    /*getAuthorizationHeader() {
         
         // need to revisit this, as hard coding values is never a good practice.
         // just putting it here to make sure REST API calls work
@@ -75,9 +86,13 @@ class ApiService {
                 "Content-Type": 'application/json',
                 "Authorization": basicAuthHeader
         }
-    }
+    }*/
 
-    setAxiosInterceptors(basicAuthHeader) {
+    /*getJwtTokenAuthHeader() {
+        return 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmRvZSIsImV4cCI6MTU2NDkwMjM5NSwiaWF0IjoxNTY0ODg0Mzk1fQ.9hzpIv1m_sRV_gmCRTwa0wzcAykUxA4u0uzz_eIYwwjFyp04Y2zBezyeQLOLeeY_nYDgVpKvtAxdgbnpEu1S8w'
+    }*/
+
+    /*setAxiosInterceptors(basicAuthHeader) {
         axios.interceptors.request.use(
             (config) => {
                 if(AuthenticationService.isUserLoggedIn()) {
@@ -86,6 +101,18 @@ class ApiService {
                 return config
             }
         )
+    }*/
+
+    getApiHeaders() {
+        let headers = {}
+        headers['Content-type'] = 'application/json'
+
+        let jwtToken = AuthenticationService.getJwtToken()
+        if(jwtToken) {
+            headers['Authorization'] = `Bearer ${jwtToken}`
+        }
+
+        return {'headers' : headers}
     }
 
     onSuccess(response) {

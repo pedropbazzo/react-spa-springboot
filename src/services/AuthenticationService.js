@@ -1,4 +1,4 @@
-import ApiService from "./ApiService";
+//import ApiService from "./ApiService";
 
 class AuthenticationService {
     registerSuccessfulLogin(username, password) {
@@ -8,8 +8,8 @@ class AuthenticationService {
         spring.security.user.name=john.doe
         spring.security.user.password=password
         */
-        let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password)
-        ApiService.setAxiosInterceptors(basicAuthHeader)
+        //let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password)
+        //ApiService.setAxiosInterceptors(basicAuthHeader)
     }
 
     logout() {
@@ -27,6 +27,13 @@ class AuthenticationService {
         }
         return true
     }
+
+
+    getJwtToken() {
+        //return sessionStorage.getItem('jwtToken')
+        return 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmRvZSIsImV4cCI6MTU2NDkwMjM5NSwiaWF0IjoxNTY0ODg0Mzk1fQ.9hzpIv1m_sRV_gmCRTwa0wzcAykUxA4u0uzz_eIYwwjFyp04Y2zBezyeQLOLeeY_nYDgVpKvtAxdgbnpEu1S8w'
+    }
+
 }
 
 export default new AuthenticationService()
