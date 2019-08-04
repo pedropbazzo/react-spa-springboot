@@ -1,19 +1,14 @@
-//import ApiService from "./ApiService";
+import ApiService from "./ApiService";
 
 class AuthenticationService {
-    registerSuccessfulLogin(username, password) {
+    onLoginSuccess(username, jwtToken) {
         sessionStorage.setItem('authenticatedUser', username)
-        
-        /* this works only after I made the following changes to application.properties in SpringBoot
-        spring.security.user.name=john.doe
-        spring.security.user.password=password
-        */
-        //let basicAuthHeader = 'Basic ' + window.btoa(username + ':' + password)
-        //ApiService.setAxiosInterceptors(basicAuthHeader)
+        sessionStorage.setItem('jwtToken', jwtToken)
     }
 
     logout() {
         sessionStorage.removeItem('authenticatedUser')
+        sessionStorage.removeItem('jwtToken')
     }
 
     getLoggedInUser() {
@@ -30,8 +25,21 @@ class AuthenticationService {
 
 
     getJwtToken() {
-        //return sessionStorage.getItem('jwtToken')
-        return 'eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJqb2huLmRvZSIsImV4cCI6MTU2NDkwMjM5NSwiaWF0IjoxNTY0ODg0Mzk1fQ.9hzpIv1m_sRV_gmCRTwa0wzcAykUxA4u0uzz_eIYwwjFyp04Y2zBezyeQLOLeeY_nYDgVpKvtAxdgbnpEu1S8w'
+        return sessionStorage.getItem('jwtToken')
+    }
+
+    async login(username, password) {
+        if(!username.trim().length || !password.trim().length) {
+            return null
+        }
+
+        return ApiService.post("/login", {username, password})
+            .then(response => {
+                return response
+            })
+            .catch(() => {
+                return null
+            })
     }
 
 }

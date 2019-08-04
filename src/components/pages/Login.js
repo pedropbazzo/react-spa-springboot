@@ -24,13 +24,19 @@ class Login extends Component {
     }
 
     loginClicked(context) {
-        if(this.state.username === 'john.doe' && this.state.password === 'password') {
-            AuthenticationService.registerSuccessfulLogin(this.state.username, this.state.password)
-            this.props.history.push("/welcome")
-            context.login()
-        } else {
+        AuthenticationService.login(this.state.username, this.state.password)
+        .then(response => {
+            if(response && response.token) {
+                AuthenticationService.onLoginSuccess(this.state.username, response.token)
+                this.props.history.push("/welcome")
+                context.login()
+            } else {
+                this.setState({hasLoginFailed: true})
+            }
+        })
+        .catch(() => {
             this.setState({hasLoginFailed: true})
-        }
+        })
     }
     
     render() {
