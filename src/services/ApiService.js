@@ -116,6 +116,9 @@ class ApiService {
     }
 
     onSuccess(response) {
+        if(response.headers['new-jwt-token']) {
+            sessionStorage.setItem('jwtToken', response.headers['new-jwt-token'])
+        }
         return Promise.resolve(response.data);
     }
 
