@@ -18,7 +18,7 @@ class Welcome extends Component {
         return (
             <div className="container">
                 <h1>Welcome!</h1>
-                <div>Welcome {AuthenticationService.getLoggedInUser()}. You can manage your Todos at <Link to="/todos">Todos</Link></div>
+                <div>Welcome {AuthenticationService.getLoggedInUserName()}. You can manage your Todos at <Link to="/todos">Todos</Link></div>
                 <div>Click <button onClick={this.retrieveWelcomeMessage}>Get welcome message</button> to get a customized welcome message</div>
                 {this.state.welcomeMessage.length > 0 && <h3>{this.state.welcomeMessage}</h3>}
                 {this.state.errorMessage.length > 0 && <div>{this.state.errorMessage}</div>}

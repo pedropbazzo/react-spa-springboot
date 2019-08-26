@@ -31,7 +31,7 @@ class Todo extends Component {
     }
 
     onSubmit(values) {
-        let user = AuthenticationService.getLoggedInUser()
+        let user = AuthenticationService.getLoggedInUserId()
         let todo = {
             id: (this.state.todo.id === 'add') ? null : this.state.todo.id,
             description: values.description,
@@ -78,7 +78,7 @@ class Todo extends Component {
             return
         }
         
-        let user = AuthenticationService.getLoggedInUser()
+        let user = AuthenticationService.getLoggedInUserId()
         this.setState({loading: true})
         
         /* calling this fn, else success/error message is always displayed when 

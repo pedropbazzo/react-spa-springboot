@@ -64,7 +64,7 @@ function App() {
             <AuthenticatedRoute exact path="/todos" 
               render={
                 (props) => {
-                  let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUser()
+                  let userId = (props.match.params.id) ? props.match.params.id : AuthenticationService.getLoggedInUserId()
                   return (
                     <TodoProvider>
                       <Todos userId={userId} />

@@ -23,7 +23,7 @@ class Todos extends Component {
             apiError: null,
             buttonDisabled: null
         }
-        this.user = (props.userId) ? props.userId : AuthenticationService.getLoggedInUser()
+        this.user = (props.userId) ? props.userId : AuthenticationService.getLoggedInUserId()
     }
 
     componentDidMount() {

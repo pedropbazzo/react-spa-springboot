@@ -5,7 +5,7 @@ class TodoService {
     addUpdateTodo(todo, user) {
         let todoUser = (user) ? user : null
         if(!todoUser) {
-            todoUser = AuthenticationService.getLoggedInUser()
+            todoUser = AuthenticationService.getLoggedInUserId()
         }
 
         let url = `/users/${todoUser}/todos`

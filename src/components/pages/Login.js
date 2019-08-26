@@ -26,8 +26,8 @@ class Login extends Component {
     loginClicked(context) {
         AuthenticationService.login(this.state.username, this.state.password)
         .then(response => {
-            if(response && response.token) {
-                AuthenticationService.onLoginSuccess(this.state.username, response.token)
+            if(response && response.user && response.jwtToken) {
+                AuthenticationService.onLoginSuccess(response.user, response.jwtToken)
                 this.props.history.push("/welcome")
                 context.login()
             } else {

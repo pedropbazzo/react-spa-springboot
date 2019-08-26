@@ -1,18 +1,39 @@
-import ApiService from "./ApiService";
+import ApiService from "./ApiService"
+import StorageService from "./StorageService"
 
 class AuthenticationService {
-    onLoginSuccess(username, jwtToken) {
-        sessionStorage.setItem('authenticatedUser', username)
-        sessionStorage.setItem('jwtToken', jwtToken)
+    onLoginSuccess(user, jwtToken) {
+        //sessionStorage.setItem('authenticatedUser', JSON.stringify(user))
+        //sessionStorage.setItem('jwtToken', jwtToken)
+
+        StorageService.setItem('authenticatedUser', JSON.stringify(user))
+        StorageService.setItem('jwtToken', jwtToken)
     }
 
     logout() {
-        sessionStorage.removeItem('authenticatedUser')
-        sessionStorage.removeItem('jwtToken')
+        StorageService.removeItem('authenticatedUser')
+        StorageService.removeItem('jwtToken')
     }
 
     getLoggedInUser() {
-        return sessionStorage.getItem('authenticatedUser')
+        let user = StorageService.getItem('authenticatedUser')
+        return ((user) ? JSON.parse(user) : null)
+    }
+
+    getLoggedInUserId() {
+        let user = this.getLoggedInUser()
+        if(user === null || user === undefined) {
+            return 0
+        }
+        return user.id
+    }
+
+    getLoggedInUserName() {
+        let user = this.getLoggedInUser()
+        if(user === null) {
+            return ''
+        }
+        return user.username
     }
 
     isUserLoggedIn() {
@@ -33,13 +54,15 @@ class AuthenticationService {
             return null
         }
 
+        // return ApiService.post("/login", {username, password})
+        //     .then(response => {
+        //         return response
+        //     })
+        //     .catch(() => {
+        //         return null
+        //     })
+
         return ApiService.post("/login", {username, password})
-            .then(response => {
-                return response
-            })
-            .catch(() => {
-                return null
-            })
     }
 
 }
